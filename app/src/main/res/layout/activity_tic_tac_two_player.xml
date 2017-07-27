@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_tictac"
+    android:orientation="vertical"
+    tools:context="com.example.arielpc.tictactoe.TicTacTwoPlayer">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        >
+
+        <ImageView
+            android:src="@drawable/board_tictactoe"
+            android:scaleType="fitCenter"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"/>
+
+        <TableLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            >
+
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/imgCelda00"
+                    android:onClick="cCelda00"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginRight="20dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda01"
+                    android:onClick="cCelda01"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda02"
+                    android:onClick="cCelda02"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/imgCelda10"
+                    android:onClick="cCelda10"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginTop="30dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda11"
+                    android:onClick="cCelda11"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginTop="30dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda12"
+                    android:onClick="cCelda12"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginTop="30dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/imgCelda20"
+                    android:onClick="cCelda20"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginRight="20dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda21"
+                    android:onClick="cCelda21"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCelda22"
+                    android:onClick="cCelda22"
+                    android:scaleType="fitCenter"
+                    android:layout_height="70dp"
+                    android:layout_width="80dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+            </TableRow>
+        </TableLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        >
+
+        <Button
+            android:id="@+id/btnReset"
+            android:onClick="cReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Reset"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
