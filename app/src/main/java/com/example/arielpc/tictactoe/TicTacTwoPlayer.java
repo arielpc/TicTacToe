@@ -1,5 +1,7 @@
 package com.example.arielpc.tictactoe;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ public class TicTacTwoPlayer extends AppCompatActivity {
             forImagen.setImageDrawable(null);
             forImagen.setClickable(true);
         }
+
         player = 1;
 
         for(int i = 0; i < 3; i++){
@@ -46,49 +49,71 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         }
     }
 
-    public void cReset(View v){
+    public void cReset(View v) {
         limpiar();
     }
 
+    public void cExit(View v) {
+        finish();
+    }
+
     public void ganar() {
+        String winX = "El Ganador es X";
+        String winO = "El Ganador es O";
+
         //Horizontal
         for (int i = 0; i < 3; i++){
             if (valuesPlayer[i][0] == 1 && valuesPlayer[i][1] == 1 && valuesPlayer[i][2] == 1) {
-                Toast notificar = Toast.makeText(this, "El jugador X ha ganado", Toast.LENGTH_LONG);
-                notificar.show();
+                //Toast notificar = Toast.makeText(this, "El jugador X ha ganado", Toast.LENGTH_LONG);
+                //notificar.show();
+                alerta(winX);
             }
             if (valuesPlayer[i][0] == 2 && valuesPlayer[i][1] == 2 && valuesPlayer[i][2] == 2) {
-                Toast notificar = Toast.makeText(this, "El jugador O ha ganado", Toast.LENGTH_LONG);
-                notificar.show();
+                alerta(winO);
             }
         }
 
         //Vertical
         for (int i = 0; i < 3; i++){
             if (valuesPlayer[0][i] == 1 && valuesPlayer[1][i] == 1 && valuesPlayer[2][i] == 1) {
-                Toast notificar = Toast.makeText(this, "El jugador X ha ganado", Toast.LENGTH_LONG);
-                notificar.show();
+                alerta(winX);
             }
             if (valuesPlayer[0][i] == 2 && valuesPlayer[1][i] == 2 && valuesPlayer[2][i] == 2) {
-                Toast notificar = Toast.makeText(this, "El jugador O ha ganado", Toast.LENGTH_LONG);
-                notificar.show();
+                alerta(winO);
             }
         }
 
         //Diagonal
         if ( (valuesPlayer[0][0] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][2] == 1) ||
              (valuesPlayer[0][2] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][0] == 1) ) {
-            Toast notificar = Toast.makeText(this, "El jugador X ha ganado", Toast.LENGTH_LONG);
-            notificar.show();
+            alerta(winX);
         }
         if ( (valuesPlayer[0][0] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][2] == 2) ||
                 (valuesPlayer[0][2] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][0] == 2) ) {
-            Toast notificar = Toast.makeText(this, "El jugador O ha ganado", Toast.LENGTH_LONG);
-            notificar.show();
+            alerta(winO);
         }
-
-        //limpiar();
     }
+
+    public void alerta (String Mensaje) {
+        AlertDialog alert = new AlertDialog.Builder(this)
+                .setTitle("TicTacToe")
+                .setMessage(Mensaje)
+                .setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        limpiar();
+                    }
+                })
+                .setNegativeButton("EXIT", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i){
+                        finish();
+                    }
+                })
+                .create();
+        alert.show();
+    }
+
 
     public void cCelda00 (View v) {
         ImageView celda00 = (ImageView)findViewById(R.id.imgCelda00);

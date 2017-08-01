@@ -5,18 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_tictac"
+    android:background="@drawable/blue_back"
     tools:context="com.example.arielpc.tictactoe.MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="30dp"
-        android:paddingBottom="70dp"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:text="TIC TAC TOE" />
+        android:src="@drawable/tictactoelogo"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="60dp"/>
 
     <Button
         android:id="@+id/btnOnePlayer"
@@ -24,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="cOnePlayer"
-        android:text="1 Jugador"
+        style="@style/BlueStyleButton"
+        android:text="vs Maquina"
         />
 
     <Button
@@ -33,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="cTwoPlayer"
-        android:text="2 Jugadores"
+        style="@style/BlueStyleButton"
+        android:text="vs Jugador"
         />
 
     <Button
@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="cSalir"
+        style="@style/BlueStyleButton"
         android:text="Salir"
         />
 

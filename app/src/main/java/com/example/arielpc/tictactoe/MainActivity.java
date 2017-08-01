@@ -18,4 +18,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void cSalir(View view) {
+        finish();
+    }
 }
