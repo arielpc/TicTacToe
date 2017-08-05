@@ -17,6 +17,16 @@
         android:layout_marginBottom="60dp"/>
 
     <Button
+        android:id="@+id/btnTwoPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="cTwoPlayer"
+        style="@style/BlueStyleButton"
+        android:text="vs Jugador"
+        />
+
+    <Button
         android:id="@+id/btnOnePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,15 +36,6 @@
         android:text="vs Maquina"
         />
 
-    <Button
-        android:id="@+id/btnTwoPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="cTwoPlayer"
-        style="@style/BlueStyleButton"
-        android:text="vs Jugador"
-        />
 
     <Button
         android:id="@+id/btnSalir"

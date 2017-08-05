@@ -2,36 +2,46 @@ package com.example.arielpc.tictactoe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-public class TicTacTwoPlayer extends AppCompatActivity {
-
+public class TicTacToeEasy extends AppCompatActivity {
     // Jugador 1 = X y 0 = O
     private int player = 1;
+
+    private int win = 0;
 
     //Para poner un valor cuando marquen la celda ya sea 1 o 0
     private int[][] valuesPlayer = new int[3][3];
 
     //Para tener todos los valores de las imagenes
     private int[] idImagenes = new int[]{R.id.imgCelda00,R.id.imgCelda01,R.id.imgCelda02,R.id.imgCelda10,
-                                         R.id.imgCelda11,R.id.imgCelda12,R.id.imgCelda20,R.id.imgCelda21,R.id.imgCelda22};
+            R.id.imgCelda11,R.id.imgCelda12,R.id.imgCelda20,R.id.imgCelda21,R.id.imgCelda22};
     private ImageView[] imagenesV = new ImageView[9];
+    private ImageView[][] imagenesV2 = new ImageView[3][3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tic_tac_two_player);
+        setContentView(R.layout.activity_tic_tac_toe_easy);
 
         //For para guardar todas las imagenes en una sola Variable
         for (int i = 0; i < 9; i++) {
             int id = idImagenes[i];
             imagenesV[i] = (ImageView)findViewById(id);
         }
+
+        int x = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int id = idImagenes[x];
+                imagenesV2[i][j] = (ImageView) findViewById(id);
+                x++;
+            }
+        }
+
     }
 
     public void noClick() {
@@ -47,6 +57,7 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         }
 
         player = 1;
+        win = 0;
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
@@ -67,7 +78,6 @@ public class TicTacTwoPlayer extends AppCompatActivity {
 
         String winX = "El Ganador es X";
         String winO = "El Ganador es O";
-        int win = 0;
 
         //Horizontal
         for (int i = 0; i < 3; i++) {
@@ -99,13 +109,13 @@ public class TicTacTwoPlayer extends AppCompatActivity {
 
         //Diagonal
         if ((valuesPlayer[0][0] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][2] == 1) ||
-            (valuesPlayer[0][2] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][0] == 1)) {
+                (valuesPlayer[0][2] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][0] == 1)) {
             alerta(winX);
             noClick();
             win = 1;
         }
         if ((valuesPlayer[0][0] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][2] == 2) ||
-            (valuesPlayer[0][2] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][0] == 2)) {
+                (valuesPlayer[0][2] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][0] == 2)) {
             alerta(winO);
             noClick();
             win = 1;
@@ -113,26 +123,12 @@ public class TicTacTwoPlayer extends AppCompatActivity {
 
         //Empate
         if (valuesPlayer[0][0] != 0 && valuesPlayer[0][1] != 0 && valuesPlayer[0][2] != 0 &&
-            valuesPlayer[1][0] != 0 && valuesPlayer[1][1] != 0 && valuesPlayer[1][2] != 0 &&
-            valuesPlayer[2][0] != 0 && valuesPlayer[2][1] != 0 && valuesPlayer[2][2] != 0 &&
-            win == 0) {
-                alerta("Empate");
-                noClick();
-        }
-
-        /*
-        boolean empty = false;
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; i < 3; ++i) {
-                if (valuesPlayer[i][j] == 0) {
-                    empty = true;
-                    break;
-                }
-            }
-        }
-        if (!empty) {
+                valuesPlayer[1][0] != 0 && valuesPlayer[1][1] != 0 && valuesPlayer[1][2] != 0 &&
+                valuesPlayer[2][0] != 0 && valuesPlayer[2][1] != 0 && valuesPlayer[2][2] != 0 &&
+                win == 0) {
             alerta("Empate");
-        }*/
+            noClick();
+        }
     }
 
     public void alerta (String Mensaje) {
@@ -155,6 +151,23 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         alert.show();
     }
 
+    public void machine(){
+        for (int f = 0; f < 3; f++) {
+            for (int c = 0; c < 3; c++) {
+                ImageView celdaX = imagenesV2[f][c];
+                if (player == 2) {
+                    if (celdaX.isClickable() && win == 0) {
+                        celdaX.setImageResource(R.drawable.circulo);
+                        celdaX.setClickable(false);
+                        valuesPlayer[f][c] = 2;
+                        player--;
+                        ganar();
+                    }
+                }
+            }
+        }
+    }
+
     public void clickCelda (int id, int fila, int col) {
         ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
 
@@ -163,58 +176,44 @@ public class TicTacTwoPlayer extends AppCompatActivity {
             celdaX.setClickable(false);
             valuesPlayer[fila][col] = 1;
             player++;
-        } else
-        {
-            celdaX.setImageResource(R.drawable.circulo);
-            celdaX.setClickable(false);
-            valuesPlayer[fila][col] = 2;
-            player--;
+            ganar();
+            machine();
         }
     }
 
     public void cCelda00 (View v) {
         clickCelda(0,0,0);
-        ganar();
     }
 
     public void cCelda01 (View v) {
         clickCelda(1,0,1);
-        ganar();
     }
 
     public void cCelda02 (View v) {
         clickCelda(2,0,2);
-        ganar();
     }
 
     public void cCelda10 (View v) {
         clickCelda(3,1,0);
-        ganar();
     }
 
     public void cCelda11 (View v) {
         clickCelda(4,1,1);
-        ganar();
     }
 
     public void cCelda12 (View v) {
         clickCelda(5,1,2);
-        ganar();
     }
 
     public void cCelda20 (View v) {
         clickCelda(6,2,0);
-        ganar();
     }
 
     public void cCelda21 (View v) {
         clickCelda(7,2,1);
-        ganar();
     }
 
     public void cCelda22 (View v) {
         clickCelda(8,2,2);
-        ganar();
     }
 }
-

@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void cOnePlayer(View view) {
+        Intent i = new Intent(this,TicTacToeEasy.class);
+        startActivity(i);
+    }
+
+
     public void cSalir(View view) {
         finish();
     }
