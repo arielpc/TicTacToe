@@ -2,12 +2,12 @@ package com.example.arielpc.tictactoe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
+//import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class TicTacTwoPlayer extends AppCompatActivity {
 
