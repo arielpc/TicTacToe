@@ -11,16 +11,20 @@ import android.widget.ImageView;
 
 public class TicTacTwoPlayer extends AppCompatActivity {
 
-    // Jugador 1 = X y 0 = O
+    // Jugador 1 = X y 2 = O
     private int player = 1;
 
-    //Para poner un valor cuando marquen la celda ya sea 1 o 0
+    //ganador = 1
+    private int win = 0;
+
+    //Para poner un valor cuando marquen la celda ya sea 1 o 2
     private int[][] valuesPlayer = new int[3][3];
 
     //Para tener todos los valores de las imagenes
     private int[] idImagenes = new int[]{R.id.imgCelda00,R.id.imgCelda01,R.id.imgCelda02,R.id.imgCelda10,
                                          R.id.imgCelda11,R.id.imgCelda12,R.id.imgCelda20,R.id.imgCelda21,R.id.imgCelda22};
     private ImageView[] imagenesV = new ImageView[9];
+    private ImageView[][] imagenesV2 = new ImageView[3][3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +36,73 @@ public class TicTacTwoPlayer extends AppCompatActivity {
             int id = idImagenes[i];
             imagenesV[i] = (ImageView)findViewById(id);
         }
-    }
 
-    public void noClick() {
-        for (ImageView forImagen : imagenesV) {
-            forImagen.setClickable(false);
+        int x = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int id = idImagenes[x];
+                imagenesV2[i][j] = (ImageView) findViewById(id);
+                x++;
+            }
         }
     }
+
+    public void clickCelda (int fila, int col) {
+        //ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
+        ImageView celdaX = imagenesV2[fila][col];
+
+        if (player==1){
+            celdaX.setImageResource(R.drawable.equix);
+            celdaX.setClickable(false);
+            valuesPlayer[fila][col] = 1;
+            player++;
+            ganar();
+        } else
+        {
+            celdaX.setImageResource(R.drawable.circulo);
+            celdaX.setClickable(false);
+            valuesPlayer[fila][col] = 2;
+            player--;
+            ganar();
+        }
+    }
+
+    public void cCelda00 (View v) {
+        clickCelda(0,0);
+    }
+
+    public void cCelda01 (View v) {
+        clickCelda(0,1);
+    }
+
+    public void cCelda02 (View v) {
+        clickCelda(0,2);
+    }
+
+    public void cCelda10 (View v) {
+        clickCelda(1,0);
+    }
+
+    public void cCelda11 (View v) {
+        clickCelda(1,1);
+    }
+
+    public void cCelda12 (View v) {
+        clickCelda(1,2);
+    }
+
+    public void cCelda20 (View v) {
+        clickCelda(2,0);
+    }
+
+    public void cCelda21 (View v) {
+        clickCelda(2,1);
+    }
+
+    public void cCelda22 (View v) {
+        clickCelda(2,2);
+    }
+
 
     public void limpiar() {
         for (ImageView forImagen : imagenesV) {
@@ -55,6 +119,12 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         }
     }
 
+    public void noClick() {
+        for (ImageView forImagen : imagenesV) {
+            forImagen.setClickable(false);
+        }
+    }
+
     public void cReset(View v) {
         limpiar();
     }
@@ -67,7 +137,6 @@ public class TicTacTwoPlayer extends AppCompatActivity {
 
         String winX = "El Ganador es X";
         String winO = "El Ganador es O";
-        int win = 0;
 
         //Horizontal
         for (int i = 0; i < 3; i++) {
@@ -119,20 +188,6 @@ public class TicTacTwoPlayer extends AppCompatActivity {
                 alerta("Empate");
                 noClick();
         }
-
-        /*
-        boolean empty = false;
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; i < 3; ++i) {
-                if (valuesPlayer[i][j] == 0) {
-                    empty = true;
-                    break;
-                }
-            }
-        }
-        if (!empty) {
-            alerta("Empate");
-        }*/
     }
 
     public void alerta (String Mensaje) {
@@ -155,66 +210,5 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         alert.show();
     }
 
-    public void clickCelda (int id, int fila, int col) {
-        ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
-
-        if (player==1){
-            celdaX.setImageResource(R.drawable.equix);
-            celdaX.setClickable(false);
-            valuesPlayer[fila][col] = 1;
-            player++;
-        } else
-        {
-            celdaX.setImageResource(R.drawable.circulo);
-            celdaX.setClickable(false);
-            valuesPlayer[fila][col] = 2;
-            player--;
-        }
-    }
-
-    public void cCelda00 (View v) {
-        clickCelda(0,0,0);
-        ganar();
-    }
-
-    public void cCelda01 (View v) {
-        clickCelda(1,0,1);
-        ganar();
-    }
-
-    public void cCelda02 (View v) {
-        clickCelda(2,0,2);
-        ganar();
-    }
-
-    public void cCelda10 (View v) {
-        clickCelda(3,1,0);
-        ganar();
-    }
-
-    public void cCelda11 (View v) {
-        clickCelda(4,1,1);
-        ganar();
-    }
-
-    public void cCelda12 (View v) {
-        clickCelda(5,1,2);
-        ganar();
-    }
-
-    public void cCelda20 (View v) {
-        clickCelda(6,2,0);
-        ganar();
-    }
-
-    public void cCelda21 (View v) {
-        clickCelda(7,2,1);
-        ganar();
-    }
-
-    public void cCelda22 (View v) {
-        clickCelda(8,2,2);
-        ganar();
-    }
 }
 

@@ -2,18 +2,20 @@ package com.example.arielpc.tictactoe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 public class TicTacToeEasy extends AppCompatActivity {
-    // Jugador 1 = X y 0 = O
+    // Jugador 1 = X y 2 = O
     private int player = 1;
 
+    //hay Ganador = 1
     private int win = 0;
 
-    //Para poner un valor cuando marquen la celda ya sea 1 o 0
+    //Para poner un valor cuando marquen la celda ya sea 1 o 2
     private int[][] valuesPlayer = new int[3][3];
 
     //Para tener todos los valores de las imagenes
@@ -44,9 +46,53 @@ public class TicTacToeEasy extends AppCompatActivity {
 
     }
 
-    public void noClick() {
-        for (ImageView forImagen : imagenesV) {
-            forImagen.setClickable(false);
+    public void cCelda00 (View v) {
+        clickCelda(0,0);
+    }
+
+    public void cCelda01 (View v) {
+        clickCelda(0,1);
+    }
+
+    public void cCelda02 (View v) {
+        clickCelda(0,2);
+    }
+
+    public void cCelda10 (View v) {
+        clickCelda(1,0);
+    }
+
+    public void cCelda11 (View v) {
+        clickCelda(1,1);
+    }
+
+    public void cCelda12 (View v) {
+        clickCelda(1,2);
+    }
+
+    public void cCelda20 (View v) {
+        clickCelda(2,0);
+    }
+
+    public void cCelda21 (View v) {
+        clickCelda(2,1);
+    }
+
+    public void cCelda22 (View v) {
+        clickCelda(2,2);
+    }
+
+    public void clickCelda (int fila, int col) {
+        //ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
+        ImageView celdaX = imagenesV2[fila][col];
+
+        if (player==1){
+            celdaX.setImageResource(R.drawable.equix);
+            celdaX.setClickable(false);
+            valuesPlayer[fila][col] = 1;
+            player++;
+            ganar();
+            machine();
         }
     }
 
@@ -66,6 +112,12 @@ public class TicTacToeEasy extends AppCompatActivity {
         }
     }
 
+    public void noClick() {
+        for (ImageView forImagen : imagenesV) {
+            forImagen.setClickable(false);
+        }
+    }
+
     public void cReset(View v) {
         limpiar();
     }
@@ -78,6 +130,7 @@ public class TicTacToeEasy extends AppCompatActivity {
 
         String winX = "El Ganador es X";
         String winO = "El Ganador es O";
+
 
         //Horizontal
         for (int i = 0; i < 3; i++) {
@@ -149,6 +202,7 @@ public class TicTacToeEasy extends AppCompatActivity {
                 })
                 .create();
         alert.show();
+        SystemClock.sleep(300);
     }
 
     public void machine(){
@@ -156,7 +210,8 @@ public class TicTacToeEasy extends AppCompatActivity {
             for (int c = 0; c < 3; c++) {
                 ImageView celdaX = imagenesV2[f][c];
                 if (player == 2) {
-                    if (celdaX.isClickable() && win == 0) {
+                    if (valuesPlayer[f][c] == 0 && win == 0) {
+                        //SystemClock.sleep(500);
                         celdaX.setImageResource(R.drawable.circulo);
                         celdaX.setClickable(false);
                         valuesPlayer[f][c] = 2;
@@ -168,52 +223,4 @@ public class TicTacToeEasy extends AppCompatActivity {
         }
     }
 
-    public void clickCelda (int id, int fila, int col) {
-        ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
-
-        if (player==1){
-            celdaX.setImageResource(R.drawable.equix);
-            celdaX.setClickable(false);
-            valuesPlayer[fila][col] = 1;
-            player++;
-            ganar();
-            machine();
-        }
-    }
-
-    public void cCelda00 (View v) {
-        clickCelda(0,0,0);
-    }
-
-    public void cCelda01 (View v) {
-        clickCelda(1,0,1);
-    }
-
-    public void cCelda02 (View v) {
-        clickCelda(2,0,2);
-    }
-
-    public void cCelda10 (View v) {
-        clickCelda(3,1,0);
-    }
-
-    public void cCelda11 (View v) {
-        clickCelda(4,1,1);
-    }
-
-    public void cCelda12 (View v) {
-        clickCelda(5,1,2);
-    }
-
-    public void cCelda20 (View v) {
-        clickCelda(6,2,0);
-    }
-
-    public void cCelda21 (View v) {
-        clickCelda(7,2,1);
-    }
-
-    public void cCelda22 (View v) {
-        clickCelda(8,2,2);
-    }
 }
