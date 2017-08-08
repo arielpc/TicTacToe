@@ -15,6 +15,9 @@ public class TicTacToeEasy extends AppCompatActivity {
     //hay Ganador = 1
     private int win = 0;
 
+    //Numero de jugadas
+    private int numJugada = 0;
+
     //Para poner un valor cuando marquen la celda ya sea 1 o 2
     private int[][] valuesPlayer = new int[3][3];
 
@@ -91,8 +94,10 @@ public class TicTacToeEasy extends AppCompatActivity {
             celdaX.setClickable(false);
             valuesPlayer[fila][col] = 1;
             player++;
+            numJugada++;
             ganar();
             machine();
+            //machineMedium();
         }
     }
 
@@ -104,6 +109,7 @@ public class TicTacToeEasy extends AppCompatActivity {
 
         player = 1;
         win = 0;
+        numJugada = 0;
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
@@ -208,19 +214,109 @@ public class TicTacToeEasy extends AppCompatActivity {
     public void machine(){
         for (int f = 0; f < 3; f++) {
             for (int c = 0; c < 3; c++) {
-                ImageView celdaX = imagenesV2[f][c];
                 if (player == 2) {
                     if (valuesPlayer[f][c] == 0 && win == 0) {
-                        //SystemClock.sleep(500);
-                        celdaX.setImageResource(R.drawable.circulo);
-                        celdaX.setClickable(false);
-                        valuesPlayer[f][c] = 2;
-                        player--;
-                        ganar();
+                        valImagenes(f,c);
                     }
                 }
             }
         }
     }
+
+    public void valImagenes (int f, int c) {
+        ImageView celdaX = imagenesV2[f][c];
+        celdaX.setImageResource(R.drawable.circulo);
+        celdaX.setClickable(false);
+        valuesPlayer[f][c] = 2;
+        player--;
+        numJugada++;
+        ganar();
+    }
+
+    public void machineMedium(){
+        if (numJugada == 1) {
+            if (valuesPlayer[1][1] == 0) {
+                valImagenes(1,1);
+            } else {
+                valImagenes(0,0);
+            }
+        }
+
+        if (numJugada == 3) {
+            if (valuesPlayer[1][1] == 1) {
+                //centrales
+                if (valuesPlayer[0][1] == 1) {
+                    valImagenes(2,1);
+                } else if (valuesPlayer[1][0] == 1) {
+                    valImagenes(1,2);
+                } else if (valuesPlayer[1][2] == 1) {
+                    valImagenes(1,0);
+                } else if (valuesPlayer[2][1] == 1) {
+                    valImagenes(0,1);
+                }
+
+                //esquinas
+                if (valuesPlayer[0][0] == 1) {
+                    valImagenes(2,2);
+                } else if (valuesPlayer[0][2] == 1) {
+                    valImagenes(2,0);
+                } else if (valuesPlayer[2][0] == 1) {
+                    valImagenes(0,2);
+                } else if (valuesPlayer[2][2] == 1) {
+                    valImagenes(2,0);
+                }
+            } else {
+                if (valuesPlayer[0][0] == 1 && valuesPlayer[0][1] == 1 ) {
+                    valImagenes(0,2);
+                }
+                if (valuesPlayer[0][0] == 1 && valuesPlayer[0][2] == 1 ) {
+                    valImagenes(0,1);
+                }
+                if (valuesPlayer[0][1] == 1 && valuesPlayer[0][2] == 1 ) {
+                    valImagenes(0,0);
+                }
+                if (valuesPlayer[2][0] == 1 && valuesPlayer[2][1] == 1 ) {
+                    valImagenes(2,2);
+                }
+                if (valuesPlayer[2][0] == 1 && valuesPlayer[2][2] == 1 ) {
+                    valImagenes(2,1);
+                }
+                if (valuesPlayer[2][1] == 1 && valuesPlayer[2][2] == 1 ) {
+                    valImagenes(2,0);
+                }
+
+                if (valuesPlayer[0][0] == 1 && valuesPlayer[1][0] == 1 ) {
+                    valImagenes(2,0);
+                }
+                if (valuesPlayer[0][0] == 1 && valuesPlayer[2][0] == 1 ) {
+                    valImagenes(1,0);
+                }
+                if (valuesPlayer[1][0] == 1 && valuesPlayer[2][1] == 1 ) {
+                    valImagenes(0,0);
+                }
+                if (valuesPlayer[0][2] == 1 && valuesPlayer[1][2] == 1 ) {
+                    valImagenes(2,2);
+                }
+                if (valuesPlayer[0][2] == 1 && valuesPlayer[2][2] == 1 ) {
+                    valImagenes(1,2);
+                }
+                if (valuesPlayer[1][2] == 1 && valuesPlayer[2][2] == 1 ) {
+                    valImagenes(0,2);
+                }
+
+                if ( (valuesPlayer[0][1] == 1 && valuesPlayer[2][1] == 1) ||
+                     (valuesPlayer[0][1] == 1 && valuesPlayer[1][2] == 1) ||
+                     (valuesPlayer[0][1] == 1 && valuesPlayer[1][0] == 1) ||
+                     (valuesPlayer[1][0] == 1 && valuesPlayer[1][2] == 1) ||
+                     (valuesPlayer[2][1] == 1 && valuesPlayer[1][0] == 1) ||
+                     (valuesPlayer[2][1] == 1 && valuesPlayer[1][2] == 1) ) {
+                    valImagenes(2,2);
+                }
+            }
+        }
+    }
+
+
+
 
 }
