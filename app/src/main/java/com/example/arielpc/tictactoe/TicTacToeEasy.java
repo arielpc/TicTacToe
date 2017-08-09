@@ -2,7 +2,7 @@ package com.example.arielpc.tictactoe;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.SystemClock;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +26,8 @@ public class TicTacToeEasy extends AppCompatActivity {
             R.id.imgCelda11,R.id.imgCelda12,R.id.imgCelda20,R.id.imgCelda21,R.id.imgCelda22};
     private ImageView[] imagenesV = new ImageView[9];
     private ImageView[][] imagenesV2 = new ImageView[3][3];
+
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +98,8 @@ public class TicTacToeEasy extends AppCompatActivity {
             player++;
             numJugada++;
             ganar();
-            machine();
-            //machineMedium();
+            //machine();
+            machineMedium();
         }
     }
 
@@ -208,19 +210,26 @@ public class TicTacToeEasy extends AppCompatActivity {
                 })
                 .create();
         alert.show();
-        SystemClock.sleep(300);
+        //SystemClock.sleep(100);
     }
 
     public void machine(){
-        for (int f = 0; f < 3; f++) {
-            for (int c = 0; c < 3; c++) {
-                if (player == 2) {
-                    if (valuesPlayer[f][c] == 0 && win == 0) {
-                        valImagenes(f,c);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                for (int f = 0; f < 3; f++) {
+                    for (int c = 0; c < 3; c++) {
+                        if (player == 2) {
+                            if (valuesPlayer[f][c] == 0 && win == 0) {
+                                valImagenes(f, c);
+                            }
+                        }
                     }
                 }
+
             }
-        }
+        }, 500);
     }
 
     public void valImagenes (int f, int c) {
@@ -233,87 +242,128 @@ public class TicTacToeEasy extends AppCompatActivity {
         ganar();
     }
 
-    public void machineMedium(){
-        if (numJugada == 1) {
-            if (valuesPlayer[1][1] == 0) {
-                valImagenes(1,1);
-            } else {
-                valImagenes(0,0);
+    public void machineMedium() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (numJugada == 1) {
+                    if (valuesPlayer[1][1] == 0) {
+                        valImagenes(1, 1);
+                    } else {
+                        valImagenes(0, 0);
+                    }
+                }
+
+                if (numJugada == 3) {
+                    if (valuesPlayer[1][1] == 1) {
+                        //centrales
+                        if (valuesPlayer[0][1] == 1) {
+                            valImagenes(2, 1);
+                        } else if (valuesPlayer[1][0] == 1) {
+                            valImagenes(1, 2);
+                        } else if (valuesPlayer[1][2] == 1) {
+                            valImagenes(1, 0);
+                        } else if (valuesPlayer[2][1] == 1) {
+                            valImagenes(0, 1);
+                        }
+
+                        //esquinas
+                        if (valuesPlayer[0][0] == 1) {
+                            valImagenes(2, 2);
+                        } else if (valuesPlayer[0][2] == 1) {
+                            valImagenes(2, 0);
+                        } else if (valuesPlayer[2][0] == 1) {
+                            valImagenes(0, 2);
+                        } else if (valuesPlayer[2][2] == 1) {
+                            valImagenes(2, 0);
+                        }
+                    } else {
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[0][1] == 1) {
+                            valImagenes(0, 2);
+                        }
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[0][2] == 1) {
+                            valImagenes(0, 1);
+                        }
+                        if (valuesPlayer[0][1] == 1 && valuesPlayer[0][2] == 1) {
+                            valImagenes(0, 0);
+                        }
+                        if (valuesPlayer[2][0] == 1 && valuesPlayer[2][1] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[2][0] == 1 && valuesPlayer[2][2] == 1) {
+                            valImagenes(2, 1);
+                        }
+                        if (valuesPlayer[2][1] == 1 && valuesPlayer[2][2] == 1) {
+                            valImagenes(2, 0);
+                        }
+
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[1][0] == 1) {
+                            valImagenes(2, 0);
+                        }
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[2][0] == 1) {
+                            valImagenes(1, 0);
+                        }
+                        if (valuesPlayer[1][0] == 1 && valuesPlayer[2][0] == 1) {
+                            valImagenes(0, 0);
+                        }
+                        if (valuesPlayer[0][2] == 1 && valuesPlayer[1][2] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[0][2] == 1 && valuesPlayer[2][2] == 1) {
+                            valImagenes(1, 2);
+                        }
+                        if (valuesPlayer[1][2] == 1 && valuesPlayer[2][2] == 1) {
+                            valImagenes(0, 2);
+                        }
+                        if (valuesPlayer[0][2] == 1 && valuesPlayer[2][0] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[2][2] == 1) {
+                            valImagenes(2, 0);
+                        }
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[1][2] == 1) {
+                            valImagenes(2, 0);
+                        }
+                        if (valuesPlayer[0][0] == 1 && valuesPlayer[2][1] == 1) {
+                            valImagenes(2, 0);
+                        }
+                        if (valuesPlayer[0][2] == 1 && valuesPlayer[1][0] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[0][2] == 1 && valuesPlayer[2][1] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[2][0] == 1 && valuesPlayer[0][1] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[2][0] == 1 && valuesPlayer[1][2] == 1) {
+                            valImagenes(2, 2);
+                        }
+                        if (valuesPlayer[2][2] == 1 && valuesPlayer[0][1] == 1) {
+                            valImagenes(2, 0);
+                        }
+                        if (valuesPlayer[2][2] == 1 && valuesPlayer[1][0] == 1) {
+                            valImagenes(2, 0);
+                        }
+
+                        if ((valuesPlayer[0][1] == 1 && valuesPlayer[2][1] == 1) ||
+                                (valuesPlayer[0][1] == 1 && valuesPlayer[1][2] == 1) ||
+                                (valuesPlayer[0][1] == 1 && valuesPlayer[1][0] == 1) ||
+                                (valuesPlayer[1][0] == 1 && valuesPlayer[1][2] == 1) ||
+                                (valuesPlayer[2][1] == 1 && valuesPlayer[1][0] == 1) ||
+                                (valuesPlayer[2][1] == 1 && valuesPlayer[1][2] == 1)) {
+                            valImagenes(2, 2);
+                        }
+                    }
+                }
+
+
+                if (numJugada > 5) {
+                    machine();
+                }
             }
-        }
-
-        if (numJugada == 3) {
-            if (valuesPlayer[1][1] == 1) {
-                //centrales
-                if (valuesPlayer[0][1] == 1) {
-                    valImagenes(2,1);
-                } else if (valuesPlayer[1][0] == 1) {
-                    valImagenes(1,2);
-                } else if (valuesPlayer[1][2] == 1) {
-                    valImagenes(1,0);
-                } else if (valuesPlayer[2][1] == 1) {
-                    valImagenes(0,1);
-                }
-
-                //esquinas
-                if (valuesPlayer[0][0] == 1) {
-                    valImagenes(2,2);
-                } else if (valuesPlayer[0][2] == 1) {
-                    valImagenes(2,0);
-                } else if (valuesPlayer[2][0] == 1) {
-                    valImagenes(0,2);
-                } else if (valuesPlayer[2][2] == 1) {
-                    valImagenes(2,0);
-                }
-            } else {
-                if (valuesPlayer[0][0] == 1 && valuesPlayer[0][1] == 1 ) {
-                    valImagenes(0,2);
-                }
-                if (valuesPlayer[0][0] == 1 && valuesPlayer[0][2] == 1 ) {
-                    valImagenes(0,1);
-                }
-                if (valuesPlayer[0][1] == 1 && valuesPlayer[0][2] == 1 ) {
-                    valImagenes(0,0);
-                }
-                if (valuesPlayer[2][0] == 1 && valuesPlayer[2][1] == 1 ) {
-                    valImagenes(2,2);
-                }
-                if (valuesPlayer[2][0] == 1 && valuesPlayer[2][2] == 1 ) {
-                    valImagenes(2,1);
-                }
-                if (valuesPlayer[2][1] == 1 && valuesPlayer[2][2] == 1 ) {
-                    valImagenes(2,0);
-                }
-
-                if (valuesPlayer[0][0] == 1 && valuesPlayer[1][0] == 1 ) {
-                    valImagenes(2,0);
-                }
-                if (valuesPlayer[0][0] == 1 && valuesPlayer[2][0] == 1 ) {
-                    valImagenes(1,0);
-                }
-                if (valuesPlayer[1][0] == 1 && valuesPlayer[2][1] == 1 ) {
-                    valImagenes(0,0);
-                }
-                if (valuesPlayer[0][2] == 1 && valuesPlayer[1][2] == 1 ) {
-                    valImagenes(2,2);
-                }
-                if (valuesPlayer[0][2] == 1 && valuesPlayer[2][2] == 1 ) {
-                    valImagenes(1,2);
-                }
-                if (valuesPlayer[1][2] == 1 && valuesPlayer[2][2] == 1 ) {
-                    valImagenes(0,2);
-                }
-
-                if ( (valuesPlayer[0][1] == 1 && valuesPlayer[2][1] == 1) ||
-                     (valuesPlayer[0][1] == 1 && valuesPlayer[1][2] == 1) ||
-                     (valuesPlayer[0][1] == 1 && valuesPlayer[1][0] == 1) ||
-                     (valuesPlayer[1][0] == 1 && valuesPlayer[1][2] == 1) ||
-                     (valuesPlayer[2][1] == 1 && valuesPlayer[1][0] == 1) ||
-                     (valuesPlayer[2][1] == 1 && valuesPlayer[1][2] == 1) ) {
-                    valImagenes(2,2);
-                }
-            }
-        }
+        }, 500);
     }
 
 
