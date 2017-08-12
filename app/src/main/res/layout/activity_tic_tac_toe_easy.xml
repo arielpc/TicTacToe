@@ -6,6 +6,28 @@
     android:background="@drawable/blue_back"
     android:orientation="vertical"
     tools:context="com.example.arielpc.tictactoe.TicTacToeEasy">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/level"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbarStyle="insideOverlay">
+        </Spinner>
+
+    </LinearLayout>
+
 
     <FrameLayout
         android:layout_width="wrap_content"

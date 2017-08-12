@@ -6,17 +6,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 public class TicTacToeEasy extends AppCompatActivity {
     // Jugador 1 = X y 2 = O
     private int player = 1;
-
-    //hay Ganador = 1
-    private int win = 0;
-
-    //Numero de jugadas
-    private int numJugada = 0;
 
     //Para poner un valor cuando marquen la celda ya sea 1 o 2
     private int[][] valuesPlayer = new int[3][3];
@@ -29,17 +25,26 @@ public class TicTacToeEasy extends AppCompatActivity {
 
     Handler handler = new Handler();
 
+    private Spinner spLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tic_tac_toe_easy);
 
-        //For para guardar todas las imagenes en una sola Variable
+        String level[] = {"1","2"};
+        spLevel = (Spinner)findViewById(R.id.spLevel);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item, level);
+        spLevel.setAdapter(adapter);
+
+        //For para guardar todas las imagenes en un Array[]
         for (int i = 0; i < 9; i++) {
             int id = idImagenes[i];
             imagenesV[i] = (ImageView)findViewById(id);
         }
 
+        //Otro for para guardar imagenes en un array[][]
         int x = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -49,6 +54,22 @@ public class TicTacToeEasy extends AppCompatActivity {
             }
         }
 
+        limpiar();
+    }
+
+    public void limpiar() {
+        for (ImageView forImagen : imagenesV) {
+            forImagen.setImageDrawable(null);
+            forImagen.setClickable(true);
+        }
+
+        player = 1;
+
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                valuesPlayer[i][j] = 0;
+            }
+        }
     }
 
     public void cCelda00 (View v) {
@@ -88,41 +109,17 @@ public class TicTacToeEasy extends AppCompatActivity {
     }
 
     public void clickCelda (int fila, int col) {
-        //ImageView celdaX = (ImageView)findViewById(idImagenes[id]);
         ImageView celdaX = imagenesV2[fila][col];
+        String sLevel =spLevel.getSelectedItem().toString();
 
-        if (player==1){
+        if (player==1 && valuesPlayer[fila][col] == 0){
             celdaX.setImageResource(R.drawable.equix);
             celdaX.setClickable(false);
             valuesPlayer[fila][col] = 1;
             player++;
-            numJugada++;
-            ganar();
-            //machine();
-            machineMedium();
-        }
-    }
-
-    public void limpiar() {
-        for (ImageView forImagen : imagenesV) {
-            forImagen.setImageDrawable(null);
-            forImagen.setClickable(true);
-        }
-
-        player = 1;
-        win = 0;
-        numJugada = 0;
-
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                valuesPlayer[i][j] = 0;
-            }
-        }
-    }
-
-    public void noClick() {
-        for (ImageView forImagen : imagenesV) {
-            forImagen.setClickable(false);
+            ganador();
+            if (sLevel.equals("1")) machine();
+            else machineMiniMax();
         }
     }
 
@@ -134,83 +131,93 @@ public class TicTacToeEasy extends AppCompatActivity {
         finish();
     }
 
-    public void ganar() {
-
-        String winX = "El Ganador es X";
-        String winO = "El Ganador es O";
-
-
-        //Horizontal
-        for (int i = 0; i < 3; i++) {
-            if (valuesPlayer[i][0] == 1 && valuesPlayer[i][1] == 1 && valuesPlayer[i][2] == 1) {
-                alerta(winX);
-                noClick();
-                win = 1;
-            }
-            if (valuesPlayer[i][0] == 2 && valuesPlayer[i][1] == 2 && valuesPlayer[i][2] == 2) {
-                alerta(winO);
-                noClick();
-                win = 1;
-            }
-        }
-
-        //Vertical
-        for (int i = 0; i < 3; i++) {
-            if (valuesPlayer[0][i] == 1 && valuesPlayer[1][i] == 1 && valuesPlayer[2][i] == 1) {
-                alerta(winX);
-                noClick();
-                win = 1;
-            }
-            if (valuesPlayer[0][i] == 2 && valuesPlayer[1][i] == 2 && valuesPlayer[2][i] == 2) {
-                alerta(winO);
-                noClick();
-                win = 1;
-            }
-        }
-
-        //Diagonal
-        if ((valuesPlayer[0][0] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][2] == 1) ||
-                (valuesPlayer[0][2] == 1 && valuesPlayer[1][1] == 1 && valuesPlayer[2][0] == 1)) {
-            alerta(winX);
+    public void ganador() {
+        int vGanador = ganaPartida();
+        if (vGanador == 1) {
+            alerta("El Ganador es X");
             noClick();
-            win = 1;
         }
-        if ((valuesPlayer[0][0] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][2] == 2) ||
-                (valuesPlayer[0][2] == 2 && valuesPlayer[1][1] == 2 && valuesPlayer[2][0] == 2)) {
-            alerta(winO);
+        if (vGanador == 2) {
+            alerta("El Ganador es O");
             noClick();
-            win = 1;
         }
-
-        //Empate
-        if (valuesPlayer[0][0] != 0 && valuesPlayer[0][1] != 0 && valuesPlayer[0][2] != 0 &&
-                valuesPlayer[1][0] != 0 && valuesPlayer[1][1] != 0 && valuesPlayer[1][2] != 0 &&
-                valuesPlayer[2][0] != 0 && valuesPlayer[2][1] != 0 && valuesPlayer[2][2] != 0 &&
-                win == 0) {
-            alerta("Empate");
+        if (tableroCompleto() && vGanador == -1){
+            alerta("Hay un Empate");
             noClick();
         }
     }
 
+    public void noClick() {
+        for (ImageView forImagen : imagenesV) {
+            forImagen.setClickable(false);
+        }
+    }
+
+    public int ganaPartida(){
+
+        for (int n=0;n<3;n++){
+            //Horizontal
+            if (valuesPlayer[n][0] != 0 && valuesPlayer[n][0] == valuesPlayer[n][1]
+                    && valuesPlayer[n][0] == valuesPlayer[n][2])
+                return valuesPlayer[n][0];
+
+            //Vertical
+            if (valuesPlayer[0][n] != 0 && valuesPlayer[0][n] == valuesPlayer[1][n]
+                    && valuesPlayer[0][n] == valuesPlayer[2][n])
+                return valuesPlayer[0][n];
+        }
+
+        //Diagonales
+        if (valuesPlayer[0][0] != 0 && valuesPlayer[0][0] == valuesPlayer[1][1]
+                && valuesPlayer[0][0] == valuesPlayer[2][2])
+            return valuesPlayer[0][0];
+        if (valuesPlayer[0][2] != 0 && valuesPlayer[0][2] == valuesPlayer[1][1]
+                && valuesPlayer[0][2] == valuesPlayer[2][0])
+            return valuesPlayer[0][2];
+
+        return -1;
+    }
+
     public void alerta (String Mensaje) {
-        AlertDialog alert = new AlertDialog.Builder(this)
-                .setTitle("TicTacToe")
-                .setMessage(Mensaje)
-                .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        limpiar();
-                    }
-                })
-                .setNegativeButton("Salir", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i){
-                        finish();
-                    }
-                })
-                .create();
-        alert.show();
-        //SystemClock.sleep(100);
+                AlertDialog alert = new AlertDialog.Builder(this)
+                        .setTitle("TicTacToe")
+                        .setMessage(Mensaje)
+                        .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                limpiar();
+                            }
+                        })
+                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .create();
+                alert.show();
+    }
+
+    public void valImagenes (int f, int c) {
+        if (valuesPlayer[f][c] == 0) {
+            ImageView celdaX = imagenesV2[f][c];
+            celdaX.setImageResource(R.drawable.circulo);
+            celdaX.setClickable(false);
+            valuesPlayer[f][c] = 2;
+            player--;
+        }
+    }
+
+    private boolean tableroCompleto(){
+        for (int n=0;n<3;n++)
+            for (int m=0;m<3;m++)
+                if (valuesPlayer[n][m]==0)
+                    return false;
+        return true;
+    }
+
+    private boolean finPartida(){
+        return tableroCompleto() || ganaPartida()!=-1;
     }
 
     public void machine(){
@@ -221,32 +228,94 @@ public class TicTacToeEasy extends AppCompatActivity {
                 for (int f = 0; f < 3; f++) {
                     for (int c = 0; c < 3; c++) {
                         if (player == 2) {
-                            if (valuesPlayer[f][c] == 0 && win == 0) {
+                            if (valuesPlayer[f][c] == 0 && ganaPartida()==-1) {
                                 valImagenes(f, c);
+                                ganador();
                             }
                         }
                     }
                 }
 
             }
-        }, 500);
+        }, 400);
     }
 
-    public void valImagenes (int f, int c) {
-        ImageView celdaX = imagenesV2[f][c];
-        celdaX.setImageResource(R.drawable.circulo);
-        celdaX.setClickable(false);
-        valuesPlayer[f][c] = 2;
-        player--;
-        numJugada++;
-        ganar();
+    private int max(){
+
+        if (finPartida()){
+            if (ganaPartida()!=-1) return -1;
+            else return 0;
+        }
+
+        int v = Integer.MIN_VALUE;
+        int aux;
+        for (int n = 0; n < 3; n++) {
+            for (int m = 0; m < 3; m++) {
+                if (valuesPlayer[n][m] == 0) {
+                    valuesPlayer[n][m] = 2;
+                    aux = min();
+                    if (aux > v) v = aux;
+                    valuesPlayer[n][m] = 0;
+                }
+            }
+        }
+        return v;
+}
+
+    private int min(){
+        if (finPartida()){
+            if (ganaPartida()!=-1) return 1;
+            else return 0;
+        }
+
+        int v = Integer.MAX_VALUE;
+        int aux;
+        for (int n = 0; n < 3; n++) {
+            for (int m = 0; m < 3; m++) {
+                if (valuesPlayer[n][m] == 0) {
+                    valuesPlayer[n][m] = 1;
+                    aux = max();
+                    if (aux < v) v = aux;
+                    valuesPlayer[n][m] = 0;
+                }
+            }
+        }
+        return v;
     }
 
-    public void machineMedium() {
+    private void machineMiniMax(){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
+                if (!finPartida()) {
+                    int f = 0, c = 0;
+                    int v = Integer.MIN_VALUE;
+                    int aux;
+                    for (int n = 0; n < 3; n++) {
+                        for (int m = 0; m < 3; m++) {
+                            if (valuesPlayer[n][m] == 0) {
+                                valuesPlayer[n][m] = 2;
+                                aux = min();
+                                if (aux > v) {
+                                    v = aux;
+                                    f = n;
+                                    c = m;
+                                }
+                                valuesPlayer[n][m] = 0;
+                            }
+                        }
+                    }
+                    valImagenes(f, c);
+                    ganador();
+                }
+            }
+
+        }, 400);
+    }
+
+    /*
+    public void machineMedium() {
                 if (numJugada == 1) {
                     if (valuesPlayer[1][1] == 0) {
                         valImagenes(1, 1);
@@ -361,12 +430,6 @@ public class TicTacToeEasy extends AppCompatActivity {
 
                 if (numJugada > 5) {
                     machine();
-                }
-            }
-        }, 500);
     }
-
-
-
-
+    */
 }

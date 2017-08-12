@@ -45,6 +45,8 @@ public class TicTacTwoPlayer extends AppCompatActivity {
                 x++;
             }
         }
+
+        limpiar();
     }
 
     public void clickCelda (int fila, int col) {
@@ -111,6 +113,7 @@ public class TicTacTwoPlayer extends AppCompatActivity {
         }
 
         player = 1;
+        win = 0;
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
@@ -209,6 +212,5 @@ public class TicTacTwoPlayer extends AppCompatActivity {
                 .create();
         alert.show();
     }
-
 }
 
